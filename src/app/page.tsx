@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Button } from "@/frontend/components/ui/button";
+import { Button } from "@/components/ui/button";
 
 export default function HomePage() {
   return (
@@ -233,9 +233,8 @@ function PricingCard({
 }) {
   return (
     <div
-      className={`rounded-lg border p-6 ${
-        highlighted ? "border-primary ring-2 ring-primary" : ""
-      }`}
+      className={`rounded-lg border p-6 ${highlighted ? "border-primary ring-2 ring-primary" : ""
+        }`}
     >
       {highlighted && (
         <span className="mb-4 inline-block rounded-full bg-primary px-3 py-1 text-xs text-primary-foreground">

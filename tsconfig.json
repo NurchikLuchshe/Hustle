@@ -26,13 +26,13 @@
         "./src/*"
       ],
       "@/components/*": [
-        "./src/frontend/components/*"
+        "./src/components/*"
       ],
       "@/lib/*": [
-        "./src/frontend/lib/*"
+        "./src/lib/*"
       ],
       "@/hooks/*": [
-        "./src/frontend/hooks/*"
+        "./src/hooks/*"
       ],
       "@/shared/*": [
         "./src/shared/*"
