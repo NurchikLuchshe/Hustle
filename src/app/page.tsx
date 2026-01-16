@@ -23,11 +23,14 @@ export default function HomePage() {
 
       {/* Hero */}
       <main className="flex-1">
-        <section className="container flex flex-col items-center justify-center gap-8 py-24 text-center md:py-32">
-          <div className="space-y-4">
+        <section className="relative container flex flex-col items-center justify-center gap-8 py-24 text-center md:py-32 overflow-hidden">
+          {/* Gradient background */}
+          <div className="absolute inset-0 -z-10 bg-gradient-to-br from-primary/10 via-transparent to-primary/5" />
+
+          <div className="space-y-4 animate-fade-in">
             <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
               AI-секретарь для{" "}
-              <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+              <span className="gradient-text">
                 вашего бизнеса
               </span>
             </h1>
@@ -38,9 +41,9 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="flex flex-col gap-4 sm:flex-row">
+          <div className="flex flex-col gap-4 sm:flex-row animate-fade-in" style={{ animationDelay: '0.2s' }}>
             <Link href="/register">
-              <Button size="lg" className="min-w-[200px]">
+              <Button size="lg" className="min-w-[200px] shadow-lg hover:shadow-xl transition-shadow">
                 Попробовать бесплатно
               </Button>
             </Link>
@@ -52,18 +55,18 @@ export default function HomePage() {
           </div>
 
           {/* Stats */}
-          <div className="mt-12 grid gap-8 sm:grid-cols-3">
-            <div className="text-center">
-              <div className="text-4xl font-bold">24/7</div>
-              <div className="text-muted-foreground">Бот отвечает всегда</div>
+          <div className="mt-12 grid gap-8 sm:grid-cols-3 w-full max-w-4xl">
+            <div className="text-center premium-card p-6 rounded-lg border bg-card">
+              <div className="text-4xl font-bold gradient-text">24/7</div>
+              <div className="text-muted-foreground mt-2">Бот отвечает всегда</div>
             </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold">30%</div>
-              <div className="text-muted-foreground">Экономия времени</div>
+            <div className="text-center premium-card p-6 rounded-lg border bg-card">
+              <div className="text-4xl font-bold gradient-text">30%</div>
+              <div className="text-muted-foreground mt-2">Экономия времени</div>
             </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold">0</div>
-              <div className="text-muted-foreground">Пропущенных клиентов</div>
+            <div className="text-center premium-card p-6 rounded-lg border bg-card">
+              <div className="text-4xl font-bold gradient-text">0</div>
+              <div className="text-muted-foreground mt-2">Пропущенных клиентов</div>
             </div>
           </div>
         </section>
@@ -210,7 +213,7 @@ function FeatureCard({
   };
 
   return (
-    <div className="rounded-lg border p-6">
+    <div className="premium-card rounded-lg border p-6 bg-card">
       <div className="mb-4 text-primary">{icons[icon]}</div>
       <h3 className="mb-2 text-xl font-semibold">{title}</h3>
       <p className="text-muted-foreground">{description}</p>
