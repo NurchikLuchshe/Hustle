@@ -1,0 +1,78 @@
+{
+  "name": "ai-booking",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI-powered booking platform for service professionals",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "format": "prettier --write .",
+    "type-check": "tsc --noEmit",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
+    "db:migrate": "supabase db push",
+    "db:reset": "supabase db reset",
+    "db:types": "supabase gen types typescript --local > src/shared/types/database.types.ts",
+    "prepare": "husky install"
+  },
+  "dependencies": {
+    "next": "14.2.x",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@supabase/supabase-js": "^2.39.0",
+    "@supabase/ssr": "^0.1.0",
+    "@tanstack/react-query": "^5.17.0",
+    "zustand": "^4.4.7",
+    "zod": "^3.22.4",
+    "react-hook-form": "^7.49.0",
+    "@hookform/resolvers": "^3.3.2",
+    "date-fns": "^3.0.0",
+    "date-fns-tz": "^2.0.0",
+    "lucide-react": "^0.303.0",
+    "clsx": "^2.1.0",
+    "tailwind-merge": "^2.2.0",
+    "class-variance-authority": "^0.7.0",
+    "openai": "^4.24.0",
+    "grammy": "^1.20.0",
+    "qrcode": "^1.5.3",
+    "resend": "^2.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0",
+    "@types/node": "^20.10.0",
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18",
+    "tailwindcss": "^3.4.0",
+    "postcss": "^8.4.32",
+    "autoprefixer": "^10.4.16",
+    "eslint": "^8.56.0",
+    "eslint-config-next": "14.2.x",
+    "@typescript-eslint/eslint-plugin": "^6.18.0",
+    "@typescript-eslint/parser": "^6.18.0",
+    "prettier": "^3.2.0",
+    "prettier-plugin-tailwindcss": "^0.5.11",
+    "vitest": "^1.1.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "@testing-library/react": "^14.1.2",
+    "@testing-library/jest-dom": "^6.2.0",
+    "msw": "^2.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0",
+    "supabase": "^1.131.0"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
