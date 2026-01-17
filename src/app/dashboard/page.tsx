@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
-export default async function DashboardPage() {
+export default async function DashboardHomePage() {
     const supabase = await createClient();
     const {
         data: { user },
@@ -13,7 +13,7 @@ export default async function DashboardPage() {
 
     const { data: vendor } = await supabase
         .from("vendors")
-        .select("*")
+        .select("id")
         .eq("user_id", user.id)
         .single();
 
@@ -21,14 +21,19 @@ export default async function DashboardPage() {
         redirect("/register");
     }
 
-    // Получаем статистику
-    const { count: bookingsCount } = await supabase
-        .from("bookings")
+    // Check if onboarding needed
+    const { count: servicesCount } = await supabase
+        .from("services")
         .select("*", { count: "exact", head: true })
         .eq("vendor_id", vendor.id);
 
-    const { count: servicesCount } = await supabase
-        .from("services")
+    if (servicesCount === 0) {
+        redirect("/dashboard/onboarding");
+    }
+
+    // Get stats
+    const { count: bookingsCount } = await supabase
+        .from("bookings")
         .select("*", { count: "exact", head: true })
         .eq("vendor_id", vendor.id);
 
@@ -42,7 +47,7 @@ export default async function DashboardPage() {
             {/* Welcome */}
             <div>
                 <h1 className="text-3xl font-bold">
-                    Добро пожаловать, {vendor.business_name}!
+                    Добро пожаловать!
                 </h1>
                 <p className="mt-2 text-muted-foreground">
                     Управляйте записями и услугами вашего бизнеса
@@ -107,9 +112,7 @@ export default async function DashboardPage() {
                     </a>
 
                     <a
-                        href={`/${vendor.slug}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        href="/dashboard/services"
                         className="flex items-center gap-4 rounded-lg border p-4 hover:bg-accent transition-colors"
                     >
                         <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
@@ -128,9 +131,9 @@ export default async function DashboardPage() {
                             </svg>
                         </div>
                         <div>
-                            <div className="font-medium">Страница записи</div>
+                            <div className="font-medium">Управление услугами</div>
                             <div className="text-sm text-muted-foreground">
-                                Просмотреть публичную страницу
+                                Редактируйте свои услуги
                             </div>
                         </div>
                     </a>
