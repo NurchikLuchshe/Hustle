@@ -1,8 +1,12 @@
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
+import Navigation from "@/components/Navigation";
 
 export default async function ExplorePage() {
     const supabase = await createClient();
+
+    // Check if user is authenticated
+    const { data: { user } } = await supabase.auth.getUser();
 
     // Get all vendors with their services
     const { data: vendors } = await supabase
@@ -24,22 +28,7 @@ export default async function ExplorePage() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50">
-            {/* Header */}
-            <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-10">
-                <div className="container mx-auto px-4 py-4">
-                    <div className="flex items-center justify-between">
-                        <Link href="/" className="text-2xl font-bold gradient-text">
-                            AI-Booking
-                        </Link>
-                        <Link
-                            href="/login"
-                            className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-                        >
-                            Войти
-                        </Link>
-                    </div>
-                </div>
-            </header>
+            <Navigation isAuthenticated={!!user} />
 
             {/* Content */}
             <main className="container mx-auto px-4 py-12">

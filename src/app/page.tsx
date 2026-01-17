@@ -1,28 +1,16 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import Navigation from "@/components/Navigation";
+import { createClient } from "@/lib/supabase/server";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
   return (
     <div className="flex min-h-screen flex-col">
-      {/* Header */}
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between">
-          <Link href="/" className="flex items-center space-x-2">
-            <span className="text-xl font-bold">AI-Booking</span>
-          </Link>
-          <nav className="flex items-center gap-4">
-            <Link href="/explore">
-              <Button variant="ghost">Найти мастера</Button>
-            </Link>
-            <Link href="/login">
-              <Button variant="ghost">Войти</Button>
-            </Link>
-            <Link href="/register">
-              <Button>Начать бесплатно</Button>
-            </Link>
-          </nav>
-        </div>
-      </header>
+      <Navigation isAuthenticated={!!user} />
+
 
       {/* Hero */}
       <main className="flex-1">
