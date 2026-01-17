@@ -97,6 +97,45 @@ export async function createBooking(formData: FormData) {
             return { error: "Ошибка создания записи: " + bookingError.message };
         }
 
+        // 6. Send email notifications
+        try {
+            // Get full service and vendor data for emails
+            const { data: fullService } = await supabase
+                .from("services")
+                .select("name, price, duration_minutes")
+                .eq("id", serviceId)
+                .single();
+
+            const { data: vendor } = await supabase
+                .from("vendors")
+                .select("business_name, email")
+                .eq("id", vendorId)
+                .single();
+
+            if (fullService && vendor) {
+                const { sendBookingConfirmationToClient, sendBookingNotificationToVendor } = await import("@/lib/email");
+
+                const emailData = {
+                    vendorName: vendor.business_name,
+                    vendorEmail: vendor.email || undefined,
+                    clientName,
+                    clientEmail: undefined, // TODO: add email field to booking form
+                    serviceName: fullService.name,
+                    price: fullService.price,
+                    startTime,
+                    duration: fullService.duration_minutes,
+                };
+
+                // Send emails (don't block on errors)
+                await Promise.allSettled([
+                    sendBookingNotificationToVendor(emailData),
+                ]);
+            }
+        } catch (emailError) {
+            // Log error but don't fail the booking
+            console.error("Error sending emails:", emailError);
+        }
+
         revalidatePath("/dashboard");
         return { success: true };
     } catch (error) {

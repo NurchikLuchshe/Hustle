@@ -112,6 +112,33 @@ export default async function DashboardHomePage() {
                     </a>
 
                     <a
+                        href="/dashboard/calendar"
+                        className="flex items-center gap-4 rounded-lg border p-4 hover:bg-accent transition-colors"
+                    >
+                        <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-green-500/10 text-green-600">
+                            <svg
+                                className="h-6 w-6"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                />
+                            </svg>
+                        </div>
+                        <div>
+                            <div className="font-medium">Календарь записей</div>
+                            <div className="text-sm text-muted-foreground">
+                                Посмотрите все записи
+                            </div>
+                        </div>
+                    </a>
+
+                    <a
                         href="/dashboard/services"
                         className="flex items-center gap-4 rounded-lg border p-4 hover:bg-accent transition-colors"
                     >
