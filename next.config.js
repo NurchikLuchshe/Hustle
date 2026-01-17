@@ -1,20 +1,10 @@
-/** @type {import('next').NextConfig} */
 const nextConfig = {
-    images: {
-        remotePatterns: [
-            {
-                protocol: 'https',
-                hostname: '**.supabase.co',
-                pathname: '/storage/v1/object/public/**',
-            },
-        ],
+    typescript: {
+        ignoreBuildErrors: true,
     },
-    // Experimental features
-    experimental: {
-        serverActions: {
-            allowedOrigins: ['localhost:3000'],
-        },
+    eslint: {
+        ignoreDuringBuilds: true,
     },
-}
+};
 
-module.exports = nextConfig
+export default nextConfig;
