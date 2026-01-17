@@ -107,7 +107,7 @@ export default function LoginPage() {
                 </div>
 
                 {/* Google OAuth */}
-                <form action={signInWithGoogle}>
+                <form action={signInWithGoogle as any}>
                     <Button type="submit" variant="outline" className="w-full" size="lg">
                         <svg className="mr-2 h-5 w-5" viewBox="0 0 24 24">
                             <path

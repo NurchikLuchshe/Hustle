@@ -53,7 +53,7 @@ export default function RegisterPage() {
                 </div>
 
                 {/* Google Quick Register */}
-                <form action={signInWithGoogle} className="mb-6">
+                <form action={signInWithGoogle as any} className="mb-6">
                     <Button type="submit" variant="outline" className="w-full" size="lg">
                         <svg className="mr-2 h-5 w-5" viewBox="0 0 24 24">
                             <path
