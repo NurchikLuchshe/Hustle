@@ -11,6 +11,9 @@ export default function HomePage() {
             <span className="text-xl font-bold">AI-Booking</span>
           </Link>
           <nav className="flex items-center gap-4">
+            <Link href="/explore">
+              <Button variant="ghost">Найти мастера</Button>
+            </Link>
             <Link href="/login">
               <Button variant="ghost">Войти</Button>
             </Link>

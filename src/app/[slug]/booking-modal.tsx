@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { X, Calendar, Clock } from "lucide-react";
 import { createBooking } from "./actions";
+import { getAvailableTimeSlots } from "./getAvailableSlots";
 
 interface Service {
     id: string;
@@ -35,6 +36,8 @@ export default function BookingModal({
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
+    const [timeSlots, setTimeSlots] = useState<string[]>([]);
+    const [loadingSlots, setLoadingSlots] = useState(false);
 
     // Generate next 14 days
     const availableDates = Array.from({ length: 14 }, (_, i) => {
@@ -43,12 +46,23 @@ export default function BookingModal({
         return date;
     });
 
-    // Simple time slots (every hour from 9 to 18)
-    const timeSlots = [
-        "09:00", "10:00", "11:00", "12:00",
-        "13:00", "14:00", "15:00", "16:00",
-        "17:00", "18:00",
-    ];
+    // Fetch available time slots when date is selected
+    useEffect(() => {
+        if (selectedDate) {
+            setLoadingSlots(true);
+            getAvailableTimeSlots(vendor.id, selectedDate, service.duration_minutes)
+                .then((result) => {
+                    if (result.error) {
+                        setError(result.error);
+                        setTimeSlots([]);
+                    } else {
+                        setTimeSlots(result.slots);
+                        setError("");
+                    }
+                })
+                .finally(() => setLoadingSlots(false));
+        }
+    }, [selectedDate, vendor.id, service.duration_minutes]);
 
     async function handleSubmit() {
         setLoading(true);
@@ -144,8 +158,8 @@ export default function BookingModal({
                                             setStep("time");
                                         }}
                                         className={`p-3 rounded-lg border text-center transition-colors ${isSelected
-                                                ? "bg-primary text-primary-foreground border-primary"
-                                                : "hover:bg-accent"
+                                            ? "bg-primary text-primary-foreground border-primary"
+                                            : "hover:bg-accent"
                                             }`}
                                     >
                                         <div className="text-xs text-muted-foreground">
@@ -165,26 +179,36 @@ export default function BookingModal({
                                 <Clock className="h-5 w-5" />
                                 Выберите время
                             </h3>
-                            <div className="grid grid-cols-4 gap-2">
-                                {timeSlots.map((time) => {
-                                    const isSelected = selectedTime === time;
-                                    return (
-                                        <button
-                                            key={time}
-                                            onClick={() => {
-                                                setSelectedTime(time);
-                                                setStep("contact");
-                                            }}
-                                            className={`p-3 rounded-lg border text-center font-medium transition-colors ${isSelected
-                                                    ? "bg-primary text-primary-foreground border-primary"
-                                                    : "hover:bg-accent"
-                                                }`}
-                                        >
-                                            {time}
-                                        </button>
-                                    );
-                                })}
-                            </div>
+                            {loadingSlots ? (
+                                <div className="text-center py-8 text-muted-foreground">
+                                    Загрузка доступного времени...
+                                </div>
+                            ) : timeSlots.length === 0 ? (
+                                <div className="text-center py-8 text-muted-foreground">
+                                    На эту дату нет доступных слотов. Выберите другую дату.
+                                </div>
+                            ) : (
+                                <div className="grid grid-cols-4 gap-2">
+                                    {timeSlots.map((time) => {
+                                        const isSelected = selectedTime === time;
+                                        return (
+                                            <button
+                                                key={time}
+                                                onClick={() => {
+                                                    setSelectedTime(time);
+                                                    setStep("contact");
+                                                }}
+                                                className={`p-3 rounded-lg border text-center font-medium transition-colors ${isSelected
+                                                        ? "bg-primary text-primary-foreground border-primary"
+                                                        : "hover:bg-accent"
+                                                    }`}
+                                            >
+                                                {time}
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            )}
                         </div>
                     )}
 
