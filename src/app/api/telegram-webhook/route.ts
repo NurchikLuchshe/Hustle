@@ -1,55 +1,42 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
 
 export async function POST(request: NextRequest) {
     try {
+        console.log("✅ Webhook received!");
+
         const update = await request.json();
+        console.log("Update:", JSON.stringify(update));
 
         if (!update.message?.text) {
+            console.log("No text message");
             return NextResponse.json({ ok: true });
         }
 
-        const message = update.message;
-        const chatId = message.chat.id;
-        const text = message.text;
-        const userId = message.from.id;
+        const chatId = update.message.chat.id;
+        const text = update.message.text;
 
-        const supabase = createClient(
-            process.env.NEXT_PUBLIC_SUPABASE_URL!,
-            process.env.SUPABASE_SERVICE_ROLE_KEY!
-        );
+        console.log(`Message from ${chatId}: ${text}`);
 
         if (text.startsWith("/start")) {
-            const { data: vendor } = await supabase
-                .from("vendors")
-                .select("*")
-                .eq("telegram_id", userId.toString())
-                .single();
-
-            if (vendor) {
-                await sendTelegramMessage(
-                    chatId,
-                    `👋 С возвращением, ${vendor.business_name}!\n\n🔗 Ссылка: ${process.env.NEXT_PUBLIC_APP_URL}/${vendor.slug}\n\nИспользуйте /menu`
-                );
-            } else {
-                await sendTelegramMessage(
-                    chatId,
-                    `👋 Добро пожаловать в AI-Booking!\n\nЯ помогу настроить автоматическую запись.\n\n🚀 Нажмите /register для регистрации`
-                );
-            }
+            await sendTelegramMessage(chatId, "👋 Привет! Бот работает!");
         }
 
         return NextResponse.json({ ok: true });
     } catch (error) {
-        console.error("Telegram webhook error:", error);
-        return NextResponse.json({ error: "Internal error" }, { status: 500 });
+        console.error("❌ Webhook error:", error);
+        return NextResponse.json({ error: String(error) }, { status: 500 });
     }
 }
 
 async function sendTelegramMessage(chatId: number, text: string) {
-    await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+    const token = process.env.TELEGRAM_BOT_TOKEN;
+    console.log(`Sending to ${chatId}: ${text}`);
+
+    const response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ chat_id: chatId, text }),
     });
+
+    console.log("Telegram API response:", await response.text());
 }
