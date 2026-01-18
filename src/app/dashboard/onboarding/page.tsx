@@ -4,11 +4,13 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Check } from "lucide-react";
 import { completeOnboarding } from "./actions";
+import { PriceListUploader } from "@/components/onboarding/price-list-uploader";
 
 const steps = [
     { id: 1, name: "Приветствие" },
-    { id: 2, name: "Первая услуга" },
-    { id: 3, name: "График работы" },
+    { id: 2, name: "Загрузка прайса (AI)" },
+    { id: 3, name: "Проверка услуг" },
+    { id: 4, name: "График работы" },
 ];
 
 export default function OnboardingPage() {
@@ -18,11 +20,8 @@ export default function OnboardingPage() {
     const [error, setError] = useState("");
 
     // Form data
-    const [serviceData, setServiceData] = useState({
-        name: "",
-        price: "",
-        duration: "",
-    });
+    const [services, setServices] = useState<any[]>([]);
+    const [skipAI, setSkipAI] = useState(false);
 
     const [schedule, setSchedule] = useState([
         { day: "monday", enabled: true, start: "09:00", end: "18:00" },
@@ -74,10 +73,10 @@ export default function OnboardingPage() {
                             <div key={step.id} className="flex items-center">
                                 <div
                                     className={`flex items-center justify-center w-10 h-10 rounded-full border-2 transition-colors ${currentStep > step.id
-                                            ? "bg-primary border-primary text-primary-foreground"
-                                            : currentStep === step.id
-                                                ? "border-primary text-primary"
-                                                : "border-muted text-muted-foreground"
+                                        ? "bg-primary border-primary text-primary-foreground"
+                                        : currentStep === step.id
+                                            ? "border-primary text-primary"
+                                            : "border-muted text-muted-foreground"
                                         }`}
                                 >
                                     {currentStep > step.id ? (

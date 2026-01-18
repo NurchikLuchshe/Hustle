@@ -12,6 +12,14 @@ export default function Navigation({ isAuthenticated }: { isAuthenticated: boole
         { href: "/explore", label: "Найти мастера" },
     ];
 
+    const links = [
+        { href: "/dashboard", label: "Главная", icon: "home" },
+        { href: "/dashboard/calendar", label: "Календарь", icon: "calendar" },
+        { href: "/dashboard/services", label: "Услуги", icon: "briefcase" },
+        { href: "/dashboard/clients", label: "Клиенты", icon: "users" },
+        { href: "/dashboard/settings", label: "Настройки", icon: "settings" },
+    ];
+
     return (
         <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="container flex h-16 items-center justify-between">
@@ -26,8 +34,8 @@ export default function Navigation({ isAuthenticated }: { isAuthenticated: boole
                                 key={link.href}
                                 href={link.href}
                                 className={`text-sm font-medium transition-colors hover:text-primary ${pathname === link.href
-                                        ? "text-foreground"
-                                        : "text-muted-foreground"
+                                    ? "text-foreground"
+                                    : "text-muted-foreground"
                                     }`}
                             >
                                 {link.label}

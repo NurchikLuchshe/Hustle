@@ -1,0 +1,2 @@
+# Добавьте эту строку в ваш .env.local файл:
+TELEGRAM_BOT_TOKEN=8493293674:AAESeIS_tlMEfS2ZviJqOhOAProjj2JtLUM
