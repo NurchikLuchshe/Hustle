@@ -1,0 +1,11 @@
+{
+    "install": {
+        "includeDevDependencies": true
+    },
+    "build": {
+        "cmd": "npm run build"
+    },
+    "start": {
+        "cmd": "npm start"
+    }
+}
