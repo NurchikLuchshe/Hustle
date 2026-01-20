@@ -16,6 +16,8 @@
     "db:migrate": "supabase db push",
     "db:reset": "supabase db reset",
     "db:types": "supabase gen types typescript --local > src/shared/types/database.types.ts",
+    "telegram:test": "node -r dotenv/config scripts/test-telegram-bot.js dotenv_config_path=.env.local",
+    "telegram:setup": "node -r dotenv/config scripts/setup-telegram-webhook.js dotenv_config_path=.env.local",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -28,6 +30,7 @@
     "clsx": "^2.1.0",
     "date-fns": "^3.0.0",
     "date-fns-tz": "^3.0.0",
+    "dotenv": "^17.2.3",
     "grammy": "^1.20.0",
     "lucide-react": "^0.303.0",
     "next": "14.2.x",
