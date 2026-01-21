@@ -6,7 +6,6 @@ import {
     editMessageText,
     answerCallbackQuery,
     requestContact,
-    removeKeyboard,
     TelegramUpdate,
     TelegramMessage,
     InlineKeyboardButton,
