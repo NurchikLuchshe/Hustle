@@ -22,6 +22,11 @@ export default function OnboardingPage() {
     // Form data
     const [services, setServices] = useState<any[]>([]);
     const [skipAI, setSkipAI] = useState(false);
+    const [serviceData, setServiceData] = useState({
+        name: "",
+        price: "",
+        duration: "",
+    });
 
     const [schedule, setSchedule] = useState([
         { day: "monday", enabled: true, start: "09:00", end: "18:00" },
